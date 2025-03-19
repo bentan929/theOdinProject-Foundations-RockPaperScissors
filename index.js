@@ -22,6 +22,44 @@ function getHumanChoice() {
 let humanScore = 0;
 let computerScore = 0;
 
+const rock = document.getElementById("rock");
+const paper = document.getElementById("paper");
+const scissors = document.getElementById("scissors");
+
+rock.addEventListener("click", function() {
+  playRound("rock", getComputerChoice());
+});
+paper.addEventListener("click", function() {
+  playRound("paper", getComputerChoice());
+});
+scissors.addEventListener("click", function() {
+  playRound("scissors", getComputerChoice());
+});
+
+const humanScoreId = document.getElementById("humanScore");
+const computerScoreId = document.getElementById("computerScore");
+const messageId = document.getElementById("message");
+
+function updateScore() {
+  humanScoreId.textContent = humanScore;
+  computerScoreId.textContent = computerScore;
+}
+
+function announceWinner() {
+  if(humanScore === 5)
+    messageId.textContent = "You win the game!";
+  else if(computerScore === 5)
+    messageId.textContent = "Computer wins the game!";
+}
+
+function resetGame() {
+  alert("Game over...\n Game will be reset!");
+  humanScore = 0;
+  computerScore = 0;
+  updateScore();
+  messageId.textContent = "";
+}
+
 // main game round
 function playRound(humanChoice, computerChoice) {
   let winConditions = {
@@ -40,24 +78,11 @@ function playRound(humanChoice, computerChoice) {
     computerScore++;
     console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
   }
-}
 
-// helper function to display scores
-function displayScore(){
-  alert("Your score: " + humanScore + " vs Computer score: " + computerScore);
-}
-
-// main game loop
-function playGame() {
-  let humanChoice, computerChoice;
-  
-  for (var i = 0; i < 5; i++) {
-    humanChoice = getHumanChoice();
-    computerChoice = getComputerChoice();
-    console.log(humanChoice + " " + computerChoice);
-    playRound(humanChoice, computerChoice);
-    displayScore();
+  updateScore();
+  if (humanScore === 5 || computerScore === 5)
+  {
+    announceWinner();
+    resetGame();
   }
 }
-
-playGame();
